@@ -142,3 +142,7 @@ Assignement Documentation/
 SAFE_TO_COMMIT.md
 *_SECURITY*
 *_GUIDE*
+# EXCLUDE ENTIRE LEARNING FOLDER
+../adv-data-eng-learning/
+adv-data-eng-learning/
+
