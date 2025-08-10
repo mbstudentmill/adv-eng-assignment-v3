@@ -276,7 +276,7 @@ class AssignmentTester:
         print("🚀 Starting Advanced Data Engineering Assignment Test Suite")
         print("=" * 70)
         print(f"📅 Test started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"📁 Project root: {self.project_root}")
+        print(f"📁 Project root: [Project Directory]")
         print("=" * 70)
         
         # Run all tests
