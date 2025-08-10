@@ -127,8 +127,27 @@ class IMDbIngestion:
             for chunk in pd.read_csv(tsv_file_path, sep='\t', chunksize=chunk_size, low_memory=False):
                 chunks.append(chunk)
             
-            # Combine chunks and save as Parquet
+            # Combine chunks
             df = pd.concat(chunks, ignore_index=True)
+            
+            # Fix data type issues for specific columns
+            if 'isAdult' in df.columns:
+                # Convert isAdult to proper boolean/int type
+                df['isAdult'] = pd.to_numeric(df['isAdult'], errors='coerce').fillna(0).astype('int64')
+            
+            if 'startYear' in df.columns:
+                # Convert startYear to numeric, handling '\\N' values
+                df['startYear'] = pd.to_numeric(df['startYear'].replace('\\N', pd.NA), errors='coerce')
+            
+            if 'endYear' in df.columns:
+                # Convert endYear to numeric, handling '\\N' values
+                df['endYear'] = pd.to_numeric(df['endYear'].replace('\\N', pd.NA), errors='coerce')
+            
+            if 'runtimeMinutes' in df.columns:
+                # Convert runtimeMinutes to numeric, handling '\\N' values
+                df['runtimeMinutes'] = pd.to_numeric(df['runtimeMinutes'].replace('\\N', pd.NA), errors='coerce')
+            
+            # Save as Parquet
             df.to_parquet(output_path, index=False)
             
             logger.info(f"Successfully converted to {output_path} with {len(df)} rows")
