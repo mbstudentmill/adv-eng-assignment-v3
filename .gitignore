@@ -1,0 +1,144 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files (large datasets)
+*.tsv.gz
+*.parquet
+*.csv
+data/
+raw/
+processed/
+
+# Logs
+*.log
+logs/
+
+# GCP credentials
+*.json
+service-account-key.json
+
+# Jupyter
+.ipynb_checkpoints/
+
+# PySpark
+.spark/
+
+# Prefect
+.prefect/
+
+# Private changelog (never commit)
+CHANGELOG.md
+changelog.md
+CHANGELOG.txt
+changelog.txt
+
+# AI and development notes (never commit)
+*_AI.md
+*_ai.md
+*_PRIVATE.md
+*_private.md
+*_DEV.md
+*_dev.md
+*_NOTES.md
+*_notes.md
+
+# Additional security - catch any variations
+*CHANGELOG*
+*changelog*
+*PRIVATE*
+*private*
+
+# Configuration templates (never commit actual configs)
+config_template.env
+*.env.template
+
+# CRITICAL: Never commit these files (AI detection risk)
+ASSIGNMENT_PROGRESS_TRACKER.md
+CHANGELOG_PUBLIC.md
+CHANGELOG.md
+test_nasa_api.py
+test_nasa_donki_solar_flares.py
+setup_env.py
+config_template.env
+
+# ENTIRE learning folder (contains AI assistance documentation)
+../adv-data-eng-learning/
+adv-data-eng-learning/
+decisions/
+
+# Development and planning documents
+*_PROGRESS*
+*_TRACKER*
+*_PLANNING*
+*_STRATEGY*
+*_REQUIREMENTS*
+
+# API testing and validation files
+*_test_*
+*_testing_*
+*_validation_*
+
+# Environment and setup files
+*_setup*
+*_env*
+*_config*
+
+# Template and development files
+*_template*
+*_dev*
+*_development*
+
+# Assignment documentation (contains personal notes)
+Assignement Documentation/
+*_Documentation/
+
+# Any file with AI-related content
+*AI*
+*ai*
+*assistant*
+*help*
+*guidance*
+*collaboration*
+
+# Security and guidance files
+SAFE_TO_COMMIT.md
+*_SECURITY*
+*_GUIDE*
