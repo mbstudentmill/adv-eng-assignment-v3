@@ -52,18 +52,18 @@ class AssignmentDiagramGenerator:
         
         # Processing
         self._draw_box(ax, 1, 0.5, 2, 1, 'PySpark\nBatch Processing', self.colors['process'])
-        self._draw_box(ax, 7, 0.5, 2, 1, 'Looker Studio\nVisualization', self.colors['viz'])
+        self._draw_box(ax, 7, 0.5, 2, 1, 'Python/Matplotlib\nVisualization', self.colors['viz'])
         
-        # Arrows
-        self._draw_arrow(ax, 2, 6.5, 4.5, 5.5)  # IMDb to Prefect
-        self._draw_arrow(ax, 8, 6.5, 4.5, 5.5)  # NASA to Prefect
-        self._draw_arrow(ax, 4.5, 5, 2, 4)      # Prefect to Bronze
-        self._draw_arrow(ax, 2, 4, 5, 4)        # Bronze to Silver
-        self._draw_arrow(ax, 5, 4, 8, 4)        # Silver to Gold
-        self._draw_arrow(ax, 5, 3.5, 5, 2.5)    # Silver to BigQuery
-        self._draw_arrow(ax, 5, 2, 2, 1)        # BigQuery to PySpark
-        self._draw_arrow(ax, 3, 1, 8, 1)        # PySpark to Gold
-        self._draw_arrow(ax, 8, 1, 8, 1.5)      # Gold to Looker Studio
+        # Arrows - connecting box centers properly
+        self._draw_arrow(ax, 2, 6, 4.75, 5.5)   # IMDb to Prefect (from bottom of IMDb to left of Prefect)
+        self._draw_arrow(ax, 8, 6, 5.25, 5.5)   # NASA to Prefect (from bottom of NASA to right of Prefect)
+        self._draw_arrow(ax, 4.75, 5, 2, 4.5)   # Prefect to Bronze (from bottom of Prefect to top of Bronze)
+        self._draw_arrow(ax, 3, 4, 4, 4)        # Bronze to Silver (right to left, same level)
+        self._draw_arrow(ax, 6, 4, 7, 4)        # Silver to Gold (right to left, same level)
+        self._draw_arrow(ax, 5, 3.5, 5, 3)      # Silver to BigQuery (from bottom of Silver to top of BigQuery)
+        self._draw_arrow(ax, 4.5, 2, 2.5, 1.5)  # BigQuery to PySpark (from left bottom to right top)
+        self._draw_arrow(ax, 3, 1, 7, 1)        # PySpark to Visualization (horizontal connection)
+        self._draw_arrow(ax, 8, 3.5, 8, 1.5)    # Gold to Visualization (vertical down)
         
         # Legend
         legend_elements = [
