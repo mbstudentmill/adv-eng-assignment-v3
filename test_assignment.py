@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Comprehensive Test Suite - Advanced Data Engineering Assignment
-Teachers can use this file to test all components and verify functionality.
+Users can use this file to test all components and verify functionality.
 """
 
 import os
