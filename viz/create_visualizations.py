@@ -32,16 +32,30 @@ class IMDbVisualizer:
         dataframes = {}
         
         try:
-            for file in os.listdir(self.gold_dir):
-                if file.endswith('.parquet'):
-                    table_name = file.split('_')[0]
-                    file_path = os.path.join(self.gold_dir, file)
+            for item in os.listdir(self.gold_dir):
+                item_path = os.path.join(self.gold_dir, item)
+                
+                # Check if it's a directory (PySpark output structure)
+                if os.path.isdir(item_path):
+                    # Extract table name from directory name
+                    table_name = item.split('_')[0] + '_' + item.split('_')[1]
                     
-                    # Find the most recent version
-                    if os.path.isdir(file_path):
-                        df = pd.read_parquet(file_path)
+                    # Look for Parquet files inside the directory
+                    parquet_files = [f for f in os.listdir(item_path) 
+                                   if f.endswith('.parquet') and not f.startswith('.')]
+                    
+                    if parquet_files:
+                        # Read the parquet directory
+                        df = pd.read_parquet(item_path)
                         dataframes[table_name] = df
-                        logger.info(f"Loaded {table_name}: {len(df)} records")
+                        logger.info(f"Loaded {table_name}: {len(df)} records from {item_path}")
+                
+                # Also check for direct Parquet files (fallback)
+                elif item.endswith('.parquet') and not item.startswith('.'):
+                    table_name = item.split('_')[0]
+                    df = pd.read_parquet(item_path)
+                    dataframes[table_name] = df
+                    logger.info(f"Loaded {table_name}: {len(df)} records from {item_path}")
             
             return dataframes
             
@@ -75,8 +89,6 @@ class IMDbVisualizer:
     
     def create_genre_performance_chart(self, df: pd.DataFrame):
         """Create genre performance comparison chart."""
-        plt.figure(figsize=(14, 8))
-        
         # Group by genre and calculate metrics
         genre_stats = df.groupby('genre').agg({
             'title_count': 'sum',
@@ -84,22 +96,27 @@ class IMDbVisualizer:
             'total_votes': 'sum'
         }).reset_index()
         
-        # Create subplot
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 8))
+        # Limit to top 15 genres for readability
+        top_genres = genre_stats.sort_values('title_count', ascending=False).head(15)
         
-        # Chart 1: Title count by genre
-        genre_stats_sorted = genre_stats.sort_values('title_count', ascending=True)
-        ax1.barh(genre_stats_sorted['genre'], genre_stats_sorted['title_count'])
+        # Create subplot with larger height for better label spacing
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(18, 12))
+        
+        # Chart 1: Title count by genre (top 15)
+        genre_counts = top_genres.sort_values('title_count', ascending=True)
+        ax1.barh(genre_counts['genre'], genre_counts['title_count'])
         ax1.set_title('Number of Titles by Genre', fontsize=14, fontweight='bold')
         ax1.set_xlabel('Number of Titles')
         
-        # Chart 2: Average rating by genre
-        genre_stats_rating = genre_stats.sort_values('avg_rating', ascending=True)
-        ax2.barh(genre_stats_rating['genre'], genre_stats_rating['avg_rating'])
+        # Chart 2: Average rating by genre (same top 15)
+        genre_ratings = top_genres.sort_values('avg_rating', ascending=True)
+        ax2.barh(genre_ratings['genre'], genre_ratings['avg_rating'])
         ax2.set_title('Average Rating by Genre', fontsize=14, fontweight='bold')
         ax2.set_xlabel('Average Rating')
         
+        # Adjust layout with more space for labels
         plt.tight_layout()
+        plt.subplots_adjust(left=0.15)
         
         # Save chart
         output_path = os.path.join(self.output_dir, "genre_performance.png")
