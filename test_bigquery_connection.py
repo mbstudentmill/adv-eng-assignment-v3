@@ -25,7 +25,7 @@ def test_bigquery_connection():
             logger.warning("gcp-credentials.json not found, using default authentication")
         
         # Test different project IDs
-        project_ids = ["ade-adveng-assign", "ade-adveng-assign-123", "ade-adveng-assign-456"]
+        project_ids = ["your-gcp-project-id", "your-gcp-project-id-123", "your-gcp-project-id-456"]
         
         for project_id in project_ids:
             try:

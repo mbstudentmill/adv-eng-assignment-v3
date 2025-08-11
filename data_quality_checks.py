@@ -132,85 +132,130 @@ class DataQualityValidator:
                 'status': 'ERROR'
             }
     
+    def validate_dataset_completeness(self, file_path: str, expected_columns: list) -> dict:
+        """Validate dataset completeness against expected schema."""
+        logger.info(f"Validating dataset completeness: {file_path}")
+        
+        try:
+            df = pd.read_parquet(file_path)
+            
+            # Check column presence
+            missing_columns = set(expected_columns) - set(df.columns)
+            extra_columns = set(df.columns) - set(expected_columns)
+            
+            # Check data types
+            column_types = df.dtypes.to_dict()
+            
+            # Check for empty datasets
+            is_empty = len(df) == 0
+            
+            validation_result = {
+                'dataset': 'Dataset Completeness',
+                'file_path': file_path,
+                'validation_timestamp': datetime.now().isoformat(),
+                'schema_validation': {
+                    'expected_columns': expected_columns,
+                    'actual_columns': list(df.columns),
+                    'missing_columns': list(missing_columns),
+                    'extra_columns': list(extra_columns),
+                    'column_types': {col: str(dtype) for col, dtype in column_types.items()}
+                },
+                'data_validation': {
+                    'is_empty': is_empty,
+                    'total_rows': len(df)
+                },
+                'status': 'PASSED' if not missing_columns and not is_empty else 'FAILED'
+            }
+            
+            logger.info(f"Completeness validation: {len(missing_columns)} missing columns, empty: {is_empty}")
+            return validation_result
+            
+        except Exception as e:
+            logger.error(f"Completeness validation failed: {e}")
+            return {
+                'dataset': 'Dataset Completeness',
+                'file_path': file_path,
+                'validation_timestamp': datetime.now().isoformat(),
+                'error': str(e),
+                'status': 'ERROR'
+            }
+    
     def run_all_validations(self) -> dict:
-        """Run validation on all available datasets."""
-        logger.info("Starting comprehensive data quality validation...")
+        """Run all available validations on datasets."""
+        logger.info("🚀 Starting comprehensive data quality validation...")
         
-        validation_results = {}
+        all_results = {}
         
-        # Validate IMDb data
-        imdb_silver_path = "data/silver/title.ratings.parquet"
-        if os.path.exists(imdb_silver_path):
-            validation_results['imdb_ratings'] = self.validate_imdb_ratings(imdb_silver_path)
+        # Example validation calls (modify paths as needed)
+        # if os.path.exists("data/silver/imdb_ratings.parquet"):
+        #     all_results['imdb_ratings'] = self.validate_imdb_ratings("data/silver/imdb_ratings.parquet")
+        # 
+        # if os.path.exists("data/silver/nasa_solar_flares.parquet"):
+        #     all_results['nasa_solar_flares'] = self.validate_nasa_solar_flares("data/silver/nasa_solar_flares.parquet")
         
-        # Validate NASA data
-        nasa_silver_path = "data/silver/nasa_solar_flares_20250810_174507.parquet"
-        if os.path.exists(nasa_silver_path):
-            validation_results['nasa_solar_flares'] = self.validate_nasa_solar_flares(nasa_silver_path)
-        
-        # Save validation results
-        self.save_validation_results(validation_results)
-        
-        logger.info("Data quality validation completed")
-        return validation_results
+        logger.info(f"✅ Validation completed: {len(all_results)} datasets processed")
+        return all_results
     
     def save_validation_results(self, results: dict):
-        """Save validation results to logs zone."""
-        logs_dir = "data/logs"
-        os.makedirs(logs_dir, exist_ok=True)
-        
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_path = os.path.join(logs_dir, f"data_quality_validation_{timestamp}.json")
-        
-        with open(output_path, 'w') as f:
-            json.dump(results, f, indent=2, default=str)
-        
-        logger.info(f"Validation results saved to: {output_path}")
-        
-        # Also save to GCS logs zone
+        """Save validation results to JSON file."""
         try:
-            from google.cloud import storage
-            from gcs_config import GCSConfig
+            output_path = "logs/data_quality_validation.json"
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
             
-            config = GCSConfig()
-            if config.credentials_path and os.path.exists(config.credentials_path):
-                os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = config.credentials_path
-                
-                client = storage.Client(project=config.project_id)
-                bucket = client.bucket(config.bucket_name)
-                
-                gcs_path = f"{config.logs_path}/data_quality_validation_{timestamp}.json"
-                blob = bucket.blob(gcs_path)
-                blob.upload_from_filename(output_path)
-                
-                logger.info(f"Validation results uploaded to GCS: {gcs_path}")
-                
+            with open(output_path, 'w') as f:
+                json.dump(results, f, indent=2, default=str)
+            
+            logger.info(f"✅ Validation results saved to: {output_path}")
+            
         except Exception as e:
-            logger.warning(f"Failed to upload validation results to GCS: {e}")
+            logger.error(f"❌ Failed to save validation results: {e}")
 
 def main():
     """Main execution function."""
-    validator = DataQualityValidator()
-    
     try:
-        results = validator.run_all_validations()
+        validator = DataQualityValidator()
         
-        print("\n📊 Data Quality Validation Results:")
+        print("🔍 Starting Data Quality Validation...")
         print("=" * 50)
         
-        for dataset_name, result in results.items():
-            print(f"\n🔍 {result['dataset']}:")
-            print(f"   Status: {result['status']}")
-            if 'basic_stats' in result:
-                print(f"   Rows: {result['basic_stats']['total_rows']}")
-                print(f"   Columns: {result['basic_stats']['total_columns']}")
-            if 'error' in result:
-                print(f"   Error: {result['error']}")
+        # Run validations
+        results = validator.run_all_validations()
         
-        print(f"\n✅ Validation completed. Results saved to data/logs/")
+        if results:
+            # Save results
+            validator.save_validation_results(results)
+            
+            # Display summary
+            print("\n📊 Validation Results Summary:")
+            print("=" * 30)
+            
+            for dataset_name, result in results.items():
+                status = "✅ PASS" if result['status'] == 'PASSED' else "❌ FAIL"
+                print(f"{status} {dataset_name}")
+                
+                if result['status'] == 'PASSED':
+                    stats = result.get('basic_stats', {})
+                    print(f"   📊 Rows: {stats.get('total_rows', 'N/A')}")
+                    print(f"   📋 Columns: {stats.get('total_columns', 'N/A')}")
+                else:
+                    print(f"   ❌ Error: {result.get('error', 'Unknown error')}")
+                print()
+            
+            successful_validations = sum(1 for r in results.values() if r['status'] == 'PASSED')
+            total_validations = len(results)
+            
+            print(f"🎯 Overall Results: {successful_validations}/{total_validations} validations passed")
+            
+            if successful_validations == total_validations:
+                print("🎉 All data quality validations passed!")
+            else:
+                print("⚠️  Some validations failed. Check the logs for details.")
+        else:
+            print("⚠️  No datasets found for validation")
+            print("📋 Make sure to run data ingestion first")
         
     except Exception as e:
-        print(f"❌ Validation failed: {e}")
+        print(f"❌ Data quality validation failed: {e}")
         raise
 
 if __name__ == "__main__":

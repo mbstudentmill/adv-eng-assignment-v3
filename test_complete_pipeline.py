@@ -100,8 +100,11 @@ def cleanup_test_data():
     
     for test_dir in test_dirs:
         if os.path.exists(test_dir):
-            shutil.rmtree(test_dir)
-            logger.info(f"🧹 Cleaned up: {test_dir}")
+            try:
+                shutil.rmtree(test_dir)
+                logger.info(f"🧹 Cleaned up: {test_dir}")
+            except Exception as e:
+                logger.warning(f"⚠️  Failed to clean up {test_dir}: {e}")
 
 def main():
     """Main execution function."""
