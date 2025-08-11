@@ -104,10 +104,10 @@ adv-data-eng-assignment/
 
 I have documented my implementation approach and challenges for each task:
 
-- **[Task 1 Completion Report](TASK1_COMPLETION_REPORT.md)** - Data pipeline development (~1,850 words)
-- **[Task 2 Completion Report](TASK2_COMPLETION_REPORT.md)** - Data warehouse design (~1,650 words)  
-- **[Task 3 Completion Report](TASK3_COMPLETION_REPORT.md)** - PySpark processing (~1,900 words)
-- **[Task 4 Completion Report](TASK4_COMPLETION_REPORT.md)** - Data visualization (~1,900 words)
+- **[Task 1 Completion Report](TASK1_COMPLETION_REPORT.md)** - Data pipeline development 
+- **[Task 2 Completion Report](TASK2_COMPLETION_REPORT.md)** - Data warehouse design 
+- **[Task 3 Completion Report](TASK3_COMPLETION_REPORT.md)** - PySpark processing 
+- **[Task 4 Completion Report](TASK4_COMPLETION_REPORT.md)** - Data visualization 
 
 ## 🚀 Quick Start
 
