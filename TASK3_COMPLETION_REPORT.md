@@ -3,8 +3,6 @@
 **Advanced Data Engineering Assignment**  
 **Date**: August 10, 2025  
 **Student**: [Anonymous]  
-**Word Count**: ~1,900 words  
-
 ## Executive Summary
 
 For Task 3, I developed a PySpark batch processing solution that handles large-scale data aggregation from the data pipeline established in Task 1. My approach focused on implementing scalable data processing using PySpark 4.0.0, processing 180M+ records across multiple IMDb datasets, and generating optimized outputs for visualization requirements. The goal was to demonstrate enterprise-grade batch processing capabilities while maintaining seamless integration with the existing data quality framework.
