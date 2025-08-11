@@ -5,7 +5,7 @@
 **Student:** Anonymous (Academic Submission)  
 **Deadline:** 1pm 11 August 2025  
 
-## �� Project Overview
+## Project Overview
 
 This implementation includes a data engineering solution covering four main tasks as required by the assignment:
 
