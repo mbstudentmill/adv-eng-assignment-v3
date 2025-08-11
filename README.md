@@ -7,14 +7,14 @@
 
 ## �� Project Overview
 
-I have implemented a comprehensive data engineering solution covering four main tasks as required by the assignment:
+This implementation includes a data engineering solution covering four main tasks as required by the assignment:
 
 1. **Data Pipeline Development** - End-to-end data ingestion and processing from multiple sources
 2. **Data Warehouse Design** - Optimized schema with performance features and testing
 3. **Batch Processing Implementation** - Scalable PySpark processing with data quality validation
 4. **Data Visualization** - Interactive dashboards and charts with comprehensive testing
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ### **Data Sources**
 - **IMDb Dataset (DB1)**: Complete data dump with foreign key relationships
@@ -35,81 +35,92 @@ IMDb Data + NASA API → GCS Bronze Zone → GCS Silver Zone → GCS Gold Zone
                             PySpark Processing → BigQuery Warehouse → Visualization
 ```
 
-## 📁 Project Structure
+## Complete Repository Structure
+
+*Repository URL:* https://github.com/mbstudentmill/adv-eng-assignment-v3
 
 ```
-adv-data-eng-assignment/
-├── README.md                           # This file - project overview
-├── ASSIGNMENT_REQUIREMENTS.md          # Assignment brief and criteria
-├── requirements.txt                    # Python dependencies
-├── setup.py                           # Project installation and setup
-├── config_public.py                   # General configuration
-├── gcs_config_public.py               # GCS configuration
-├── env.template                       # Environment variables template
+adv-eng-assignment-v3/
 │
-├── ingestion/                         # Task 1: Data ingestion
-│   ├── imdb/                         # IMDb data processing
-│   │   └── imdb_ingestion.py        # IMDb data ingestion implementation
-│   └── nasa/                         # NASA API integration
-│       └── nasa_ingestion.py        # NASA API integration
+├── CORE TASK IMPLEMENTATIONS
+├── batch/
+│   └── pyspark_batch.py                    # Task 3: PySpark batch processing engine
 │
-├── orchestration/                     # Task 1: Pipeline orchestration
-│   └── main.py                       # Prefect orchestration pipeline
+├── diagrams/
+│   ├── generate_diagrams.py                # Automated diagram generation script  
+│   ├── pipeline.png                        # Task 1: Data pipeline architecture
+│   └── schema.png                          # Task 2: Star schema warehouse design
 │
-├── warehouse/                         # Task 2: Data warehouse
-│   └── ddl/                          # SQL schema definitions
-│       ├── create_warehouse.sql      # Main warehouse schema
-│       └── create_warehouse_fixed.sql # Fixed warehouse schema
+├── ingestion/
+│   ├── imdb/
+│   │   └── imdb_ingestion.py              # Task 1: IMDb data ingestion logic
+│   └── nasa/
+│       └── nasa_ingestion.py              # Task 1: NASA DONKI API integration
 │
-├── batch/                            # Task 3: Batch processing
-│   └── pyspark_batch.py             # PySpark batch processing engine
+├── orchestration/
+│   └── main.py                            # Task 1: Prefect workflow orchestration
 │
-├── viz/                              # Task 4: Visualizations
-│   ├── create_visualizations.py      # Individual chart generation
-│   ├── create_integrated_dashboard.py # Integrated dashboard creation
-│   └── output/                       # Generated charts and dashboards
-│       ├── decade_analysis.png       # Decade analysis visualization
-│       ├── genre_performance.png     # Genre performance chart
-│       ├── integrated_dashboard.png  # Integrated dashboard
-│       ├── rating_trends.png         # Rating trends analysis
-│       └── summary_dashboard.png     # Summary dashboard
+├── viz/
+│   ├── output/                            # Task 4: Generated visualizations
+│   │   ├── decade_analysis.png            # Decade trends analysis
+│   │   ├── genre_performance.png          # Genre performance charts (optimized)
+│   │   ├── integrated_dashboard.png       # Combined dashboard view  
+│   │   ├── rating_trends.png              # Rating trends over time
+│   │   └── summary_dashboard.png          # Summary metrics overview
+│   ├── create_integrated_dashboard.py     # Task 4: Dashboard creation engine
+│   └── create_visualizations.py           # Task 4: Individual chart generation
 │
-├── diagrams/                          # Architecture and schema diagrams
-│   ├── generate_diagrams.py          # Diagram generation script
-│   ├── pipeline.png                  # Pipeline architecture diagram
-│   ├── schema.png                    # Data schema diagram
-│   └── schema_updated.png            # Updated schema diagram
+├── warehouse/
+│   └── ddl/
+│       ├── create_warehouse.sql           # Task 2: Main warehouse schema
+│       └── create_warehouse_fixed.sql     # Task 2: Optimized warehouse schema
 │
-├── testing/                          # Test frameworks and validation
-│   ├── test_assignment.py            # Comprehensive testing suite
-│   ├── test_complete_pipeline.py     # End-to-end pipeline testing
-│   ├── test_nasa_api.py             # NASA API specific testing
-│   ├── test_warehouse_performance.py # Warehouse performance testing
-│   └── test_bigquery_connection.py  # BigQuery connection testing
+├── TASK COMPLETION DOCUMENTATION  
+├── TASK1_COMPLETION_REPORT.md             # Task 1: Pipeline implementation report
+├── TASK2_COMPLETION_REPORT.md             # Task 2: Warehouse design report
+├── TASK3_COMPLETION_REPORT.md             # Task 3: Batch processing report
+├── TASK4_COMPLETION_REPORT.md             # Task 4: Visualization report
+├── FINAL_SUBMISSION_CHECKLIST.md          # Assignment completion verification
+├── README.md                              # Project overview and setup guide
 │
-├── gcs_management/                   # GCS data management
-│   ├── add_imdb_files_to_gcs.py     # IMDb data upload to GCS
-│   ├── upload_imdb_data_to_gcs.py   # IMDb data upload utility
-│   ├── upload_nasa_data_to_gcs.py   # NASA data upload utility
-│   ├── fix_gcs_folders.py           # GCS folder structure fixes
-│   └── setup_gcs_folders.py         # GCS folder setup
+├── COMPREHENSIVE TESTING FRAMEWORK
+├── test_assignment.py                     # Testing suite (10 test categories)
+├── test_bigquery_connection.py            # BigQuery connectivity validation
+├── test_complete_pipeline.py              # End-to-end pipeline testing  
+├── test_gcs_connection.py                 # Google Cloud Storage testing
+├── test_warehouse_performance.py          # Warehouse performance validation
 │
-├── utilities/                        # Utility and setup scripts
-│   ├── data_quality_checks.py       # Data quality validation
-│   ├── fix_remaining_tables.py      # Warehouse table fixes
-│   └── create_warehouse_tables.py   # Python-based table creation
+├── CONFIGURATION & UTILITIES
+├── requirements.txt                       # Python dependencies
+├── config.py / config_public.py          # Configuration management system
+├── env.template                           # Environment variables template
+├── setup.py                              # Project setup and installation
+├── setup_instructions.md                 # Detailed setup guide
+├── data_quality_checks.py                # Data validation framework
+├── gcs_config_public.py                  # GCS configuration management
+│
+└── DEPLOYMENT & MANAGEMENT SCRIPTS
+    ├── create_warehouse_tables.py         # Automated warehouse deployment
+    ├── execute_task2_warehouse.py         # Task 2 execution coordinator
+    ├── add_imdb_files_to_gcs.py          # IMDb data upload automation
+    ├── upload_imdb_data_to_gcs.py        # IMDb GCS upload management  
+    ├── upload_nasa_data_to_gcs.py        # NASA data GCS upload management
+    ├── list_gcs_buckets.py               # GCS bucket inspection utility
+    ├── list_gcs_contents.py              # GCS content management utility
+    ├── setup_gcs_folders.py              # GCS folder structure automation
+    └── fix_gcs_folders.py                # GCS folder repair utility
 ```
 
-## 📋 Task Completion Reports
+## Task Completion Reports
 
-I have documented my implementation approach and challenges for each task:
+The implementation includes documentation of the approach and challenges for each task:
 
 - **[Task 1 Completion Report](TASK1_COMPLETION_REPORT.md)** - Data pipeline development 
 - **[Task 2 Completion Report](TASK2_COMPLETION_REPORT.md)** - Data warehouse design 
 - **[Task 3 Completion Report](TASK3_COMPLETION_REPORT.md)** - PySpark processing 
 - **[Task 4 Completion Report](TASK4_COMPLETION_REPORT.md)** - Data visualization 
 
-## 🚀 Quick Start
+## Quick Start
 
 ### **Prerequisites**
 - Python 3.8+
@@ -150,9 +161,9 @@ python batch/pyspark_batch.py
 python viz/create_visualizations.py
 ```
 
-## 🧪 Testing Framework
+## Testing Framework
 
-I have implemented a comprehensive testing framework (`test_assignment.py`) that validates:
+The implementation includes a testing framework (`test_assignment.py`) that validates:
 
 - **Data Ingestion**: IMDb and NASA API connectivity
 - **Data Processing**: PySpark batch processing functionality
@@ -160,12 +171,12 @@ I have implemented a comprehensive testing framework (`test_assignment.py`) that
 - **Data Quality**: Validation of data integrity and completeness
 - **Visualization**: Chart generation and output validation
 
-The test suite provides 100% coverage of all assignment components and can be run with:
+The test suite covers all assignment components and can be run with:
 ```bash
 python test_assignment.py
 ```
 
-## 📊 Generated Outputs
+## Generated Outputs
 
 ### **Visualizations (Task 4)**
 - `decade_analysis.png` - Decade-based rating trends analysis
@@ -179,7 +190,7 @@ python test_assignment.py
 - `schema.png` - Initial data warehouse schema
 - `schema_updated.png` - Optimized final schema
 
-## 🔧 Key Implementation Files
+## Key Implementation Files
 
 ### **Batch 5 (Already Submitted)**
 - **Core Implementation**: `ingestion/`, `orchestration/`, `warehouse/`, `batch/`, `viz/`
@@ -191,46 +202,46 @@ python test_assignment.py
 - **Testing Frameworks**: Additional testing components for validation
 - **Utilities**: Setup, data quality, and table management scripts
 
-## 📚 Assignment Requirements
+## Assignment Requirements
 
 For detailed assignment criteria and grading information, see [ASSIGNMENT_REQUIREMENTS.md](ASSIGNMENT_REQUIREMENTS.md).
 
-## 🎯 What I Accomplished
+## What I Accomplished
 
 ### **Task 1: Data Pipeline Development**
-I successfully implemented a multi-source data ingestion pipeline that handles both IMDb TSV.GZ datasets and NASA DONKI API data. The pipeline includes data cleaning, transformation, and storage in GCS bronze/silver/gold zones with comprehensive error handling and retry logic.
+The solution includes a multi-source data ingestion pipeline that handles both IMDb TSV.GZ datasets and NASA DONKI API data. The pipeline includes data cleaning, transformation, and storage in GCS bronze/silver/gold zones with error handling and retry logic.
 
 ### **Task 2: Data Warehouse Design**
-I designed and implemented a star schema data warehouse in BigQuery with performance optimizations including partitioning by year and clustering by genre. The warehouse supports complex analytical queries and demonstrates advanced optimization techniques.
+The solution includes a star schema data warehouse in BigQuery with performance optimizations including partitioning by year and clustering by genre. The warehouse supports complex analytical queries and includes optimization techniques.
 
 ### **Task 3: Batch Processing Implementation**
-I implemented scalable PySpark batch processing that handles large-scale data aggregation from the IMDb dataset. The solution includes memory optimization, adaptive execution, and comprehensive data quality validation.
+The solution includes scalable PySpark batch processing that handles large-scale data aggregation from the IMDb dataset. The implementation includes memory optimization, adaptive execution, and data quality validation.
 
 ### **Task 4: Data Visualization**
-I created professional-grade visualizations using Python libraries (Matplotlib and Seaborn) that demonstrate insights from the processed data. The implementation includes both individual charts and an integrated dashboard.
+The solution includes visualizations using Python libraries (Matplotlib and Seaborn) that present insights from the processed data. The implementation includes both individual charts and an integrated dashboard.
 
-## 🔍 Challenges and Solutions
+## Challenges and Solutions
 
-Throughout the implementation, I encountered several challenges:
+During the implementation, several challenges were encountered:
 
 1. **PySpark Environment Setup**: Java version compatibility issues resolved by ensuring Java 17 installation
 2. **GCS Authentication**: Credential management challenges solved with proper environment variable configuration
 3. **Data Quality Validation**: Implemented comprehensive validation framework to ensure data integrity
 4. **Performance Optimization**: Applied partitioning and clustering strategies for warehouse performance
 
-## 📈 Project Status
+## Project Status
 
-- **Task 1**: ✅ Complete with comprehensive testing
-- **Task 2**: ✅ Complete with performance optimization
-- **Task 3**: ✅ Complete with scalable processing
-- **Task 4**: ✅ Complete with professional visualizations
+- **Task 1**: Complete with testing
+- **Task 2**: Complete with performance optimization
+- **Task 3**: Complete with scalable processing
+- **Task 4**: Complete with visualizations
 
-All tasks have been implemented according to the assignment specifications with comprehensive testing and documentation.
+All tasks have been implemented according to the assignment specifications with testing and documentation.
 
-## 📝 Notes
+## Notes
 
 - This project is created for academic assessment purposes only
 - All code and documentation are original work created for the Advanced Data Engineering course (LDSCI7229)
-- The implementation demonstrates practical application of data engineering principles
-- Comprehensive testing ensures all components function correctly
+- The implementation includes practical application of data engineering principles
+- Testing ensures all components function correctly
 - All files are sanitized and ready for academic submission
