@@ -2,8 +2,7 @@
 
 **Advanced Data Engineering Assignment**  
 **Date**: August 10, 2025  
-**Student**: [Anonymous]  
-**Word Count**: ~1,650 words  
+**Student**: [Anonymous]    
 
 ## Executive Summary
 
